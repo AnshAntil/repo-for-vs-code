@@ -1,0 +1,57 @@
+# takes up too much time and memory
+from typing import List
+
+class Solution:
+    def shortestSubarray(self, nums: List[int], k: int) -> int:
+        self.sols = []
+        sol = []
+        inde = 0
+        def subarrays(nums, k, inde , sol):
+            if sum(sol) >= k:
+                self.sols.append(sol.copy())
+                
+            if inde < len(nums):
+                sol.append(nums[inde])
+                subarrays(nums, k, inde + 1 , sol)
+        for i in range(len(nums)):
+            inde = i
+            subarrays(nums, k, inde, sol=[])
+
+        shortest = 10 ** 5
+        for i in self.sols:
+            if len(i) <= shortest:
+                shortest = len(i)
+        
+        return shortest if len(self.sols) != 0 else -1
+
+# good answer
+class solution:
+    def shortestSubarray(self, nums: List[int], k: int) -> int:
+        res = float("inf")
+
+        cur_sum = 0
+        q = deque()  # (prefix_sum, end_idx)
+
+        for r in range(len(nums)):
+            cur_sum += nums[r]
+            if cur_sum >= k:
+                res = min(res, r + 1)
+
+            # Find the minimum valid window ending at r
+            while q and cur_sum - q[0][0] >= k:
+                prefix, end_idx = q.popleft()
+                res = min(res, r - end_idx)
+
+            # Validate the monotonic deque
+            while q and q[-1][0] > cur_sum:
+                q.pop()
+            q.append((cur_sum, r))
+
+        return -1 if res == float("inf") else res
+
+
+nums = list(map(int, input("enter list of intergers").strip('[] ').split(',')))
+k = int(input("enter sum"))
+ques = Solution()
+ans = ques.shortestSubarray(nums, k)
+print(ans)
