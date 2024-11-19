@@ -25,6 +25,7 @@ class Solution:
         return shortest if len(self.sols) != 0 else -1
 
 # good answer
+from collections import deque
 class solution:
     def shortestSubarray(self, nums: List[int], k: int) -> int:
         res = float("inf")
@@ -50,8 +51,8 @@ class solution:
         return -1 if res == float("inf") else res
 
 
-nums = list(map(int, input("enter list of intergers").strip('[] ').split(',')))
-k = int(input("enter sum"))
+nums = list(map(int, input("enter list of intergers: ").strip('[] ').split(',')))
+k = int(input("enter sum: "))
 ques = Solution()
 ans = ques.shortestSubarray(nums, k)
 print(ans)
